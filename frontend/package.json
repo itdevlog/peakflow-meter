@@ -1,0 +1,51 @@
+{
+  "name": "peakflow-meter-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Peakflow Meter - medical tracker for children with asthma",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint src --ext ts,tsx --fix",
+    "format": "prettier --write src/**/*.{ts,tsx}"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
+    "@chakra-ui/react": "^2.5.1",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "framer-motion": "^10.0.1",
+    "axios": "^1.3.4",
+    "recharts": "^2.5.0",
+    "@tanstack/react-query": "^4.26.1",
+    "date-fns": "^2.29.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "eslint": "^8.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.4",
+    "prettier": "^2.8.4"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "vite",
+    "chakra-ui",
+    "medical",
+    "asthma",
+    "peakflow"
+  ],
+  "author": "Peakflow Meter Team",
+  "license": "MIT"
+}
