@@ -62,11 +62,9 @@ const App: React.FC = () => {
       });
 
       if (!response.ok) {
-        // If not authenticated, redirect to login
+        // If not authenticated, just throw error to be handled by onError
         if (response.status === 401 || response.status === 403) {
           localStorage.removeItem('access_token');
-          // Use navigate instead of direct window.location for proper React Router handling
-          navigate('/login');
           throw new Error('Unauthorized');
         }
         throw new Error('Failed to fetch user profile');
@@ -81,7 +79,6 @@ const App: React.FC = () => {
       // Handle error appropriately
       if (err.message === 'Unauthorized' || err.message.includes('401') || err.message.includes('403')) {
         localStorage.removeItem('access_token');
-        navigate('/login');
       }
     },
     // Only run this query if there's a token
@@ -95,7 +92,6 @@ const App: React.FC = () => {
       const token = localStorage.getItem('access_token');
       // If no token, don't make the API call
       if (!token) {
-        // Return null or undefined to indicate no user is logged in, rather than throwing an error
         return null;
       }
 
@@ -109,8 +105,6 @@ const App: React.FC = () => {
         // Handle unauthorized access
         if (response.status === 401 || response.status === 403) {
           localStorage.removeItem('access_token');
-          // Use navigate instead of direct window.location for proper React Router handling
-          navigate('/login');
           throw new Error('Unauthorized');
         }
         throw new Error('Failed to fetch child profile');
@@ -119,14 +113,13 @@ const App: React.FC = () => {
       return response.json();
     },
     staleTime: 10 * 60 * 1000, // 10 минут
-    enabled: !!currentUser && currentUser !== null, // Выполняется только если есть пользователь
+    enabled: !!localStorage.getItem('access_token') && !!currentUser && currentUser !== null, // Выполняется только если есть токен и пользователь
     retry: false, // Don't retry on errors
     onError: (err) => {
       console.error('Error fetching child profile:', err);
       // Handle error appropriately
       if (err.message === 'Unauthorized' || err.message.includes('401') || err.message.includes('403')) {
         localStorage.removeItem('access_token');
-        navigate('/login');
       }
     }
   })
@@ -134,8 +127,25 @@ const App: React.FC = () => {
   const handleLogout = () => {
     // В реальной системе здесь будет логика выхода
     // apiService.logout()
-    queryClient.clear()
-    navigate('/login')
+    localStorage.removeItem('access_token');
+    queryClient.clear();
+    navigate('/login');
+  }
+
+  // Show loading state while checking authentication
+  if (userLoading && localStorage.getItem('access_token')) {
+    return (
+      <Flex direction="column" minH="100vh" align="center" justify="center">
+        <Heading size="md" color="teal.600">Пикфлоуметр</Heading>
+        <Text mt={4}>Загрузка...</Text>
+      </Flex>
+    );
+  }
+
+  // If there's an error with authentication, clear token and redirect to login
+  if (isError && localStorage.getItem('access_token')) {
+    localStorage.removeItem('access_token');
+    navigate('/login');
   }
 
   return (
