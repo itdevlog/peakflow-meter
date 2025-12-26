@@ -41,25 +41,17 @@ const MeasurementsList: React.FC<MeasurementsListProps> = ({ childId }) => {
   const { data: measurements, isLoading, error } = useQuery<Measurement[]>({
     queryKey: ['measurements', childId],
     queryFn: async () => {
-      // В реальной системе здесь будет вызов API
-      // const response = await fetch(`/api/measurements?child_id=${childId}`, {
-      //   headers: {
-      //     'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-      //   }
-      // })
-      // return response.json()
-      
-      // Заглушка для демонстрации
-      return new Promise<Measurement[]>((resolve) => {
-        setTimeout(() => {
-          resolve([
-            { id: 1, value: 450, timestamp: '2023-12-25T10:30:00Z', zone: 'green', notes: 'Хороший результат утром' },
-            { id: 2, value: 380, timestamp: '2023-12-24T15:45:00Z', zone: 'yellow', notes: 'После физической активности' },
-            { id: 3, value: 320, timestamp: '2023-12-23T08:15:00Z', zone: 'red', notes: 'Были симптомы' },
-            { id: 4, value: 470, timestamp: '2023-12-22T09:00Z', zone: 'green' },
-          ])
-        }, 500)
-      })
+      const response = await fetch(`/api/?child_id=${childId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch measurements');
+      }
+
+      return response.json();
     },
     staleTime: 5 * 60 * 1000, // 5 минут
   })

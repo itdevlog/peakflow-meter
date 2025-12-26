@@ -8,7 +8,6 @@ from ..database import get_db
 from ..auth.security import get_current_user
 
 router = APIRouter(
-    prefix="/measurements",
     tags=["measurements"],
     dependencies=[Depends(get_current_user)]
 )

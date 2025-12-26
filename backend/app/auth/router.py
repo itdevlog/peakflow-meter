@@ -10,7 +10,6 @@ from ..utils import get_password_hash
 
 # Router для аутентификации
 router = APIRouter(
-    prefix="/auth",
     tags=["authentication"]
 )
 

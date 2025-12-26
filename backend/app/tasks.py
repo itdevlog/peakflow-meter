@@ -3,7 +3,6 @@
 """
 from celery import Celery
 from .config import settings
-from .reminder_scheduler import ReminderScheduler
 from .utils.notification_sender import NotificationSender
 import asyncio
 
@@ -26,6 +25,8 @@ def send_reminder_notification(reminder_id: int):
     """
     Асинхронная задача для отправки напоминания
     """
+    # Импорт внутри функции для избежания циклической зависимости
+    from .reminder_scheduler import ReminderScheduler
     # Вызов асинхронной функции из синхронной задачи Celery
     result = asyncio.run(ReminderScheduler.send_reminder_notification_async(reminder_id))
     return {"status": "success" if result else "failed", "reminder_id": reminder_id}
@@ -37,6 +38,8 @@ def check_daily_measurements():
     Асинхронная задача для проверки, были ли сделаны измерения за день
     и отправки напоминаний, если они не были выполнены
     """
+    # Импорт внутри функции для избежания циклической зависимости
+    from .reminder_scheduler import ReminderScheduler
     result = ReminderScheduler.check_daily_reminders()
     return {"status": "success", "message": "Daily measurements check completed", "task_result": str(result)}
 
@@ -60,5 +63,7 @@ def check_and_send_reminders():
     """
     Задача для проверки и отправки всех напоминаний в нужное время
     """
+    # Импорт внутри функции для избежания циклической зависимости
+    from .reminder_scheduler import ReminderScheduler
     result = ReminderScheduler.check_daily_reminders()
     return {"status": "completed", "message": "Reminder check completed", "result": str(result)}

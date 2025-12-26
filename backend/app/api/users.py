@@ -8,7 +8,6 @@ from ..auth.security import get_current_user
 from ..utils import get_password_hash
 
 router = APIRouter(
-    prefix="/users",
     tags=["users"],
     dependencies=[Depends(get_current_user)]
 )

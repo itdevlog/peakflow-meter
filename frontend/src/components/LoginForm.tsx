@@ -34,20 +34,17 @@ const LoginForm: React.FC = () => {
 
   const loginMutation = useMutation({
     mutationFn: async (loginData: LoginCredentials) => {
-      // В реальной системе здесь будет вызов API
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(loginData)
-      // })
-      // return response.json()
-      
-      // Заглушка для демонстрации
-      return new Promise<LoginResponse>((resolve) => {
-        setTimeout(() => {
-          resolve({ access_token: 'fake_token', token_type: 'bearer' })
-        }, 100)
-      })
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      return response.json();
     },
     onSuccess: (data) => {
       // Сохраняем токен в localStorage

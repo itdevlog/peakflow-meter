@@ -9,7 +9,6 @@ from ..auth.security import get_current_user
 from ..tasks import send_reminder_notification
 
 router = APIRouter(
-    prefix="/reminders",
     tags=["reminders"],
     dependencies=[Depends(get_current_user)]
 )

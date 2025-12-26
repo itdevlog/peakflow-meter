@@ -9,7 +9,6 @@ from ..auth.security import get_current_user
 from ..utils.zone_calculator import calculate_zone_boundaries, determine_zone
 
 router = APIRouter(
-    prefix="/zones",
     tags=["zones"],
     dependencies=[Depends(get_current_user)]
 )

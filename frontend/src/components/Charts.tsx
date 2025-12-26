@@ -51,28 +51,17 @@ const Charts: React.FC<ChartsProps> = ({ childId }) => {
   const { data: measurements, isLoading } = useQuery<Measurement[]>({
     queryKey: ['measurements', childId, timeRange],
     queryFn: async () => {
-      // В реальной системе здесь будет вызов API
-      // const response = await fetch(`/api/measurements?child_id=${childId}&range=${timeRange}`, {
-      //   headers: {
-      //     'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-      //   }
-      // })
-      // return response.json()
-      
-      // Заглушка для демонстрации
-      return new Promise<Measurement[]>((resolve) => {
-        setTimeout(() => {
-          resolve([
-            { id: 1, value: 450, timestamp: '2023-12-25T10:30:00Z', zone: 'green' },
-            { id: 2, value: 380, timestamp: '2023-12-24T15:45:00Z', zone: 'yellow' },
-            { id: 3, value: 320, timestamp: '2023-12-23T08:15:00Z', zone: 'red' },
-            { id: 4, value: 470, timestamp: '2023-12-22T09:0:00Z', zone: 'green' },
-            { id: 5, value: 420, timestamp: '2023-12-21T11:20:0Z', zone: 'green' },
-            { id: 6, value: 390, timestamp: '2023-12-20T14:30:00Z', zone: 'yellow' },
-            { id: 7, value: 460, timestamp: '2023-12-19T10:15:00Z', zone: 'green' },
-          ])
-        }, 500)
-      })
+      const response = await fetch(`/api/?child_id=${childId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch measurements');
+      }
+
+      return response.json();
     },
     staleTime: 5 * 60 * 1000, // 5 минут
   })

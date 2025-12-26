@@ -1,0 +1,160 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.coverage
+.cache
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+.coverage*
+.pytest_cache/
+.coverage.xml
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/modules/
+.pydevproject
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.dev
+.env.test
+.env.production
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+
+# Database
+*.db
+*.db-journal
+data/
+
+# Backend
+/backend/__pycache__/
+/backend/*.py[cod]
+/backend/*$py.class
+/backend/.pytest_cache/
+/backend/.coverage
+/backend/.tox/
+/backend/.nox/
+
+# Frontend
+node_modules/
+dist/
+build/
+.nuxt/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+vite.config.ts.bak
+.vite/
+
+# TypeScript
+*.tsbuildinfo
+.history/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Testing
+.pytest_cache/
+.nyc_output/
+
+# Production
+public/
+
+# Local development
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Docker
+.dockerenv
+.dockerignore
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+VolumeIcon.icns
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.sublime-workspace
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Deployment
+deploy.log
+*.bak
+*.tmp
+
+# SSL certificates (if not meant for production)
+/ssl/*.key
+/ssl/*.crt
+/ssl/*.pem
+!ssl/certs/  # Allow the directory structure but not the files
+
+# Ignore all certificate files except allow directory structure
+ssl/*.key
+ssl/*.crt
+ssl/*.pem
+!ssl/

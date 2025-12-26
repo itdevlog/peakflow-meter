@@ -8,7 +8,6 @@ from . import models, schemas
 from .database import SessionLocal
 from .utils.notification_sender import NotificationSender
 from .utils.zone_calculator import calculate_zone_boundaries, determine_zone
-from .tasks import send_telegram_message, send_reminder_notification
 from celery import group
 import asyncio
 
@@ -56,6 +55,7 @@ class ReminderScheduler:
                 if measurement_count == 0:
                     # В реальной системе нужно получить chat_id из профиля ребенка или родителя
                     # Пока используем заглушку
+                    from .tasks import send_reminder_notification
                     reminder_tasks.append(send_reminder_notification.s(reminder.id))
             
             # Выполняем все задачи

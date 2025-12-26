@@ -38,26 +38,23 @@ const MeasurementForm: React.FC<MeasurementFormProps> = ({ childId, onSuccess })
 
   const measurementMutation = useMutation({
     mutationFn: async (measurementData: MeasurementData) => {
-      // В реальной системе здесь будет вызов API
-      // const response = await fetch(`/api/measurements`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-      //   },
-      //   body: JSON.stringify({
-      //     ...measurementData,
-      //     child_id: childId
-      //   })
-      // })
-      // return response.json()
-      
-      // Заглушка для демонстрации
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({ id: Math.floor(Math.random() * 1000), ...measurementData })
-        }, 300)
-      })
+      const response = await fetch('/api/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({
+          ...measurementData,
+          child_id: childId
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save measurement');
+      }
+
+      return response.json();
     },
     onSuccess: () => {
       toast({

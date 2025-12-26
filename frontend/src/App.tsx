@@ -1,11 +1,11 @@
 import React from 'react'
-import { 
- Box, 
-  Container, 
-  Heading, 
-  VStack, 
-  HStack, 
-  Button, 
+import {
+ Box,
+  Container,
+  Heading,
+  VStack,
+  HStack,
+  Button,
   useColorMode,
   Text,
   Flex
@@ -45,40 +45,91 @@ const App: React.FC = () => {
   const queryClient = useQueryClient()
 
   // Запрос текущего пользователя
-  const { data: currentUser, isLoading: userLoading } = useQuery<User>({
+  const { data: currentUser, isLoading: userLoading, isError, error } = useQuery<User>({
     queryKey: ['currentUser'],
     queryFn: async () => {
-      // В реальной системе здесь будет запрос к API
-      // return await apiService.getCurrentUser()
-      return {
-        id: 1,
-        username: 'parent123',
-        email: 'parent@example.com',
-        role: 'parent'
+      const token = localStorage.getItem('access_token');
+      // If no token, don't make the API call
+      if (!token) {
+        // Return null or undefined to indicate no user is logged in, rather than throwing an error
+        return null;
+      }
+
+      const response = await fetch('/api/profile', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        // If not authenticated, redirect to login
+        if (response.status === 401 || response.status === 403) {
+          localStorage.removeItem('access_token');
+          // Use navigate instead of direct window.location for proper React Router handling
+          navigate('/login');
+          throw new Error('Unauthorized');
+        }
+        throw new Error('Failed to fetch user profile');
+      }
+
+      return response.json();
+    },
+    staleTime: 5 * 60 * 1000, // 5 минут
+    retry: false, // Don't retry on auth errors
+    onError: (err) => {
+      console.error('Error fetching user profile:', err);
+      // Handle error appropriately
+      if (err.message === 'Unauthorized' || err.message.includes('401') || err.message.includes('403')) {
+        localStorage.removeItem('access_token');
+        navigate('/login');
       }
     },
-    staleTime: 5 * 60 * 100, // 5 минут
+    // Only run this query if there's a token
+    enabled: !!localStorage.getItem('access_token')
   })
 
  // Запрос профиля ребенка
   const { data: childProfile, isLoading: profileLoading } = useQuery<ChildProfile>({
     queryKey: ['childProfile'],
     queryFn: async () => {
-      // В реальной системе здесь будет запрос к API
-      // return await apiService.getChildProfile()
-      return {
-        id: 1,
-        first_name: 'Анна',
-        last_name: 'Иванова',
-        birth_date: '2015-05-15',
-        height: 130,
-        gender: 'female',
-        best_result: 450
+      const token = localStorage.getItem('access_token');
+      // If no token, don't make the API call
+      if (!token) {
+        // Return null or undefined to indicate no user is logged in, rather than throwing an error
+        return null;
       }
+
+      const response = await fetch('/api/child-profile', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        // Handle unauthorized access
+        if (response.status === 401 || response.status === 403) {
+          localStorage.removeItem('access_token');
+          // Use navigate instead of direct window.location for proper React Router handling
+          navigate('/login');
+          throw new Error('Unauthorized');
+        }
+        throw new Error('Failed to fetch child profile');
+      }
+
+      return response.json();
     },
     staleTime: 10 * 60 * 1000, // 10 минут
-    enabled: !!currentUser, // Выполняется только если есть пользователь
- })
+    enabled: !!currentUser && currentUser !== null, // Выполняется только если есть пользователь
+    retry: false, // Don't retry on errors
+    onError: (err) => {
+      console.error('Error fetching child profile:', err);
+      // Handle error appropriately
+      if (err.message === 'Unauthorized' || err.message.includes('401') || err.message.includes('403')) {
+        localStorage.removeItem('access_token');
+        navigate('/login');
+      }
+    }
+  })
 
   const handleLogout = () => {
     // В реальной системе здесь будет логика выхода
@@ -97,7 +148,7 @@ const App: React.FC = () => {
               <Link to="/">
                 <Heading size="md" color="teal.600">Пикфлоуметр</Heading>
               </Link>
-              {currentUser && (
+              {currentUser && !userLoading && (
                 <HStack spacing={4}>
                   <Link to="/measurements">
                     <Button size="sm" variant="ghost">Измерения</Button>
@@ -113,18 +164,18 @@ const App: React.FC = () => {
                 </HStack>
               )}
             </HStack>
-            
+
             <HStack spacing={3}>
               <Button onClick={toggleColorMode} size="sm" variant="ghost">
                 {colorMode === 'light' ? '🌙' : '☀️'}
               </Button>
-              {currentUser ? (
+              {currentUser && !userLoading ? (
                 <VStack spacing={0} alignItems="flex-start">
                   <Text fontSize="sm">{currentUser.username}</Text>
                   <Text fontSize="xs" color="gray.500">{currentUser.role === 'parent' ? 'Родитель' : 'Ребенок'}</Text>
                 </VStack>
               ) : null}
-              {currentUser && (
+              {currentUser && !userLoading && (
                 <Button onClick={handleLogout} size="sm" colorScheme="red">
                   Выйти
                 </Button>
