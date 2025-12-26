@@ -1,160 +1,75 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
+```gitignore
+# Dependencies
+node_modules/
+
+# Build outputs
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-.coverage
-.cache
-.pytest_cache/
-htmlcov/
-.tox/
-.nox/
-.coverage*
-.pytest_cache/
-.coverage.xml
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.git/modules/
-.pydevproject
+build/
+*.js.map
+*.ts.map
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editors
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
-.DS_Store
-
-# Environment variables
-.env
-.env.local
-.env.dev
-.env.test
-.env.production
-
-# Virtual Environment
-venv/
-env/
-ENV/
-.venv/
-env.bak/
-venv.bak/
-
-# Database
-*.db
-*.db-journal
-data/
-
-# Backend
-/backend/__pycache__/
-/backend/*.py[cod]
-/backend/*$py.class
-/backend/.pytest_cache/
-/backend/.coverage
-/backend/.tox/
-/backend/.nox/
-
-# Frontend
-node_modules/
-dist/
-build/
-.nuxt/
-.next/
-out/
-coverage/
-*.tsbuildinfo
-vite.config.ts.bak
-.vite/
-
-# TypeScript
-*.tsbuildinfo
-.history/
 
 # Logs
-logs/
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# Runtime
-pids/
-*.pid
-*.seed
-*.pid.lock
+# Python (if present)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# Coverage directory used by tools like istanbul
+# Temporary files
+*.tmp
+*.temp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
 coverage/
+htmlcov/
+.coverage
 
 # Testing
+.mypy_cache/
 .pytest_cache/
-.nyc_output/
 
-# Production
-public/
+# Java/Gradle (if present)
+target/
+.gradle/
 
-# Local development
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Docker
-.dockerenv
-.dockerignore
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-VolumeIcon.icns
-
-# IDE
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.sublime-workspace
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# Deployment
-deploy.log
-*.bak
-*.tmp
-
-# SSL certificates (if not meant for production)
-/ssl/*.key
-/ssl/*.crt
-/ssl/*.pem
-!ssl/certs/  # Allow the directory structure but not the files
-
-# Ignore all certificate files except allow directory structure
-ssl/*.key
-ssl/*.crt
-ssl/*.pem
-!ssl/
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
+```
